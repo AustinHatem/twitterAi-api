@@ -1,5 +1,6 @@
 import openai
 from fastapi import FastAPI, Path
+import os
 
 app = FastAPI()
 
@@ -7,7 +8,7 @@ def open_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
         return infile.read()
 
-openai.api_key = open_file('openaiapikey.txt')
+openai.api_key = os.environ.get('OPENAIKEY')
 FINE_TUNED_MODEL = 'davinci:ft-personal-2022-12-15-22-49-18'
 TEMP = 0.7
 

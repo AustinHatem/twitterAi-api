@@ -1,8 +1,19 @@
 import openai
 from fastapi import FastAPI, Path
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def open_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
@@ -26,9 +37,6 @@ def gpt3_completion(prompt, engine='text-davinci-003', temp=TEMP, top_p=1.0, tok
         stop=stop)
     text = response['choices'][0]['text'].strip()
     return text
-
-
-
 
 @app.get('/')
 def home():
